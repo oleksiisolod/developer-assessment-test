@@ -1,25 +1,34 @@
-import logo from './logo.svg';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.css';
+import CustomHighhcartsWidget from './widgets/CustomHighchartsWidget';
+import CustomHandsontableWidget from './widgets/CustomHandsontableWidget';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    return (
+        <div className="App">
+
+            <div className="jumbotron text-center">
+                <h1>Developer Assessment</h1>
+            </div>
+
+            <br />
+            <div className="container">
+                <div className="row">
+                    <div className="col-sm-12 widget">
+                        <h1>Highcharts Heatmap</h1>
+                        <i>Please modify the custom-highcharts-widget so that it returns a heatmap using <a href="https://www.npmjs.com/package/highcharts">highcharts</a>.</i>
+                        <CustomHighhcartsWidget></CustomHighhcartsWidget>
+                    </div>
+                    <div className="col-sm-12">&nbsp;</div>
+                    <div className="col-sm-12 widget">
+                        <h1>Handsontable Heatmap</h1>
+                        <i>Please modify the custom-handsontable-widget so that it returns a heatmap using <a href="https://www.npmjs.com/package/handsontable">handsontable</a>.</i>
+                        <CustomHandsontableWidget></CustomHandsontableWidget>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
 }
 
 export default App;
