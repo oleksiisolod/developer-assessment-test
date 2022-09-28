@@ -1,63 +1,31 @@
-// const columnHeaders = [ ["Version", "Executive General and Administration", "Inventory Management", "Manufacturing", "Quality Assurance", "Sales and Marketing", "Research and Development"] ];
-// const rowsData = [ ["Actual", -214569.02804853008, -105928.24112864747, 6825.64149834103, -4314.147215432423, 866378.2837408222, -204590.33887112237], ["Budget", -352171.14227059274, -98795.9712060611, 238.1234837768164, 238.1234837768164, 1512416.8967751563, -202891.60255816544], ["Last Year", -309116.6502055696, -124991.3211540927, 7183.136080128785, -4540.101692374503, -525266.1946542066, -244072.0727683794] ];
+import { useState, useEffect } from 'react';
 
-import { columnHeaders, rowsData } from "./customData";
+import DataService from '../services/DataService';
+import HandsontableService from '../services/HandsontableService';
+import { HotTable } from '@handsontable/react';
+import { registerAllModules } from 'handsontable/registry';
+import { columnHeaders, rowsData } from '../customData';
+
+registerAllModules();
 
 function CustomHandsontableWidget() {
-    const showColHeader = (item) => {
-        return (
-            item.map((x, i) =>
-                <th>
-                    {x}
-                </th>
-            )
-        )
-    }
+    const [settings, setSettings] = useState();
 
-    const showColHeaders = () => {
-        return (
-            columnHeaders.map((x, i) =>
-                <tr>
-                    {showColHeader(x)}
-                </tr>
-            )
-        )
-    }
+    useEffect(() => {
+        const dataService = new DataService(() => ({
+            headers: columnHeaders,
+            data: rowsData,
+        }));
+        const heatmapService = new HandsontableService(dataService, {
+            heatMinColor: '#fff',
+            heatMaxColor: '#f67676',
+        });
+        const options = heatmapService.buildOptions();
 
-    const showRowItem = (item) => {
-        return (
-            item.map((x, i) =>
-                <td>
-                    {x}
-                </td>
-            )
-        )
-    }
+        setSettings(options);
+    }, []);
 
-    const showRowData = () => {
-        return (
-            rowsData.map((x, i) =>
-                <tr>
-                    {showRowItem(x)}
-                </tr>
-            )
-        )
-    }
-
-    return (
-        <div>
-            <h2>Custom Highcharts Widget</h2>
-
-            <table className="table table-striped">
-                <thead>
-                    {showColHeaders()}
-                </thead>
-                <tbody>
-                    {showRowData()}
-                </tbody>
-            </table>
-        </div>
-    )
+    return <div>{settings && <HotTable settings={settings} width="100%" />}</div>;
 }
 
 export default CustomHandsontableWidget;
